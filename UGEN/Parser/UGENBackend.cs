@@ -147,14 +147,16 @@ namespace UGEN
 
         private void ExpandRules()
         {
-            // Expand them in the dependencies order
+            var rulesForExpansion = new List<CachedRule>();
+
+            // List for Expansion in the dependencies order (Leafs first)
             foreach (var ruleId in _dependenciesOrder)
             {
                 foreach (var rule in _rules)
                 {
                     if (rule.ID == ruleId)
                     {
-                        ExpandAddCachedRule(rule);
+                        rulesForExpansion.Add(RegisterCachedRule(rule));
                         break;
                     }
                 }
@@ -164,15 +166,18 @@ namespace UGEN
             foreach (var rule in _rules)
             {
                 if (!_cachedRules.ContainsKey(rule.ID))
-                    ExpandAddCachedRule(rule);
+                    rulesForExpansion.Add(RegisterCachedRule(rule));
             }
+
+            foreach (var rule in rulesForExpansion)
+                ExpandCachedRule(rule);
         }
 
-        private void ExpandAddCachedRule(PatternRule rule)
+        private CachedRule RegisterCachedRule(PatternRule rule)
         {
             var cachedRule = new CachedRule { Rule = rule };
-            ExpandCachedRule(cachedRule);
             _cachedRules.Add(rule.ID, cachedRule);
+            return cachedRule;
         }
 
         private void ExpandCachedRule(CachedRule cachedRule)
@@ -283,7 +288,7 @@ namespace UGEN
         private Action<string> _onModelWarning = null;
 
         private List<PatternRule> _rules = null;
-        private IEnumerable<string> _dependenciesOrder = null;
+        private List<string> _dependenciesOrder = null;
         private Dictionary<string, CachedRule> _cachedRules = new Dictionary<string, CachedRule>();
     }
 }
