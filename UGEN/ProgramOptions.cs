@@ -36,8 +36,9 @@ namespace UGEN
                     new Argument<FileInfo>("file", "Input file with UGEN rules and declarations").ExistingOnly(),
                     new Option<FileInfo>(new[] { "--out", "-o" }, "Output file name to write out produced content. If not specified, content will be output to standard output"),
                     new Option<bool>(new[] { "--force", "-f" }, "If --out flag is provided with the path to an existing file, overwrites that file"),
+                    new Option<string[]>(new[] { "--rules", "-r" }, "List of names of rules to display. Names of rules can be space, comma or semicolon separated"),
                 };
-            printCmd.Handler = CommandHandler.Create<FileInfo, FileInfo, bool, IConsole>(PrintCmdHandler);
+            printCmd.Handler = CommandHandler.Create<FileInfo, FileInfo, bool, string[], IConsole>(PrintCmdHandler);
 
             var rootCmd = new RootCommand(DESCRIPTION) { createCmd, printCmd };
 
@@ -46,12 +47,12 @@ namespace UGEN
 
         private static int CreateCmdHandler(FileInfo file, FileInfo @out, bool force, IConsole context)
         {
-            return ExecuteCommand(file, @out, force, context, Cmd.Create);
+            return ExecuteCommand(file, @out, force, null, context, Cmd.Create);
         }
 
-        private static int PrintCmdHandler(FileInfo file, FileInfo @out, bool force, IConsole context)
+        private static int PrintCmdHandler(FileInfo file, FileInfo @out, bool force, string[] rules, IConsole context)
         {
-            return ExecuteCommand(file, @out, force, context, Cmd.Print);
+            return ExecuteCommand(file, @out, force, rules, context, Cmd.Print);
         }
     }
 }

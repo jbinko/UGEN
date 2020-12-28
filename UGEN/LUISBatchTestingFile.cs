@@ -21,7 +21,7 @@ namespace UGEN
 
     internal sealed class LUISBatchTestingFile
     {
-        public static string Create(List<CachedRule> generated, string fileName = null)
+        public static string Create(List<CachedRule> generated, string fileName)
         {
             var json = Create(generated);
             if (String.IsNullOrWhiteSpace(fileName))

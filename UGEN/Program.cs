@@ -7,7 +7,7 @@ namespace UGEN
 {
     internal static partial class Program
     {
-        private static int ExecuteCommand(FileInfo file, FileInfo outFile, bool overwrite, IConsole context, Cmd cmd)
+        private static int ExecuteCommand(FileInfo file, FileInfo outFile, bool overwrite, string[] rulesToPrint, IConsole context, Cmd cmd)
         {
             try
             {
@@ -20,7 +20,7 @@ namespace UGEN
                 });
 
                 using (var stream = File.OpenRead(file.FullName))
-                    Build(parser.Parse(stream), outFile, overwrite, context, cmd);
+                    Build(parser.Parse(stream), outFile, overwrite, rulesToPrint, context, cmd);
             }
             catch (Exception e)
             {
@@ -35,7 +35,7 @@ namespace UGEN
             return 0;
         }
 
-        private static void Build(dynamic dObject, FileInfo outFile, bool overwrite, IConsole context, Cmd cmd)
+        private static void Build(dynamic dObject, FileInfo outFile, bool overwrite, string[] rulesToPrint, IConsole context, Cmd cmd)
         {
             if (dObject == null)
                 return; // All errors dumped already - no action needed
@@ -61,12 +61,12 @@ namespace UGEN
                 return;
 
             if (outFile == null)
-                ProduceToConsole(cmd, backend);
+                ProduceToConsole(rulesToPrint, cmd, backend);
             else
-                ProduceToFile(outFile, overwrite, cmd, backend);
+                ProduceToFile(outFile, overwrite, rulesToPrint, cmd, backend);
         }
 
-        private static void ProduceToFile(FileInfo outFile, bool overwrite, Cmd cmd, UGENBackend backend)
+        private static void ProduceToFile(FileInfo outFile, bool overwrite, string[] rulesToPrint, Cmd cmd, UGENBackend backend)
         {
             if (outFile.Exists && !overwrite)
             {
@@ -78,25 +78,37 @@ namespace UGEN
             if (cmd == Cmd.Create)
                 LUISBatchTestingFile.Create(backend.Generated, outFile.FullName);
             else
-                PrintToFile(backend.Generated, outFile.FullName);
+                PrintToFile(backend.Generated, rulesToPrint, outFile.FullName);
 
             Console.WriteLine(String.Format("The file '{0}' has been successfully created.", outFile.Name));
         }
 
-        private static void ProduceToConsole(Cmd cmd, UGENBackend backend)
+        private static void ProduceToConsole(string[] rulesToPrint, Cmd cmd, UGENBackend backend)
         {
             if (cmd == Cmd.Create)
                 LUISBatchTestingFile.Create(backend.Generated, null);
             else
-                PrintToFile(backend.Generated, null);
+                PrintToFile(backend.Generated, rulesToPrint, null);
         }
 
-        private static void PrintToFile(List<CachedRule> generated, string fileName = null)
+        private static void PrintToFile(List<CachedRule> generated, string[] rulesToPrint, string fileName)
         {
+            var rulesToPrintSet = GetRulesToPrint(rulesToPrint);
+
             using (var sw = new StringWriter())
             {
                 foreach (var r in generated)
                 {
+                    // Print only specific rules
+                    if(rulesToPrintSet != null && rulesToPrintSet.Count > 0)
+                    {
+                        if (!rulesToPrintSet.Contains(r.Rule.ID))
+                        {
+                            sw.WriteLine(String.Format("Rule '{0}' - Print Skipped", r.Rule.ID));
+                            continue;
+                        }
+                    }
+
                     if (r.Rule.Type == PatternRuleType.Default)
                         sw.WriteLine(String.Format("Rule '{0}':", r.Rule.ID));
                     else
@@ -111,6 +123,30 @@ namespace UGEN
                 else
                     System.IO.File.WriteAllText(fileName, sw.ToString());
             }
+        }
+
+        private static HashSet<string> GetRulesToPrint(string[] rulesToPrint)
+        {
+            if (rulesToPrint == null || rulesToPrint.Length <= 0)
+                return null;
+
+            var rules = new HashSet<string>();
+
+            // can be space, comma or semicolon separated
+            foreach (var r in rulesToPrint)
+            {
+                if (String.IsNullOrWhiteSpace(r))
+                    continue;
+
+                var separated = r.Split(' ', ',', ';');
+                foreach (var s in separated)
+                {
+                    if (!String.IsNullOrWhiteSpace(s))
+                        rules.Add(s.Trim());
+                }
+            }
+
+            return rules;
         }
     }
 }
