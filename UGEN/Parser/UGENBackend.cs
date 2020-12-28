@@ -182,7 +182,7 @@ namespace UGEN
 
         private void ExpandCachedRule(CachedRule cachedRule)
         {
-            Console.WriteLine("Producing rule: '{0}'", cachedRule.Rule.ID);
+            Console.WriteLine("Producing rule: {0}", cachedRule.Rule.ID);
             CleanProducedStrings(cachedRule, ExpandRule(cachedRule.Rule, cachedRule.Rule.Body));
         }
 

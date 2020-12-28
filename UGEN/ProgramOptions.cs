@@ -32,7 +32,7 @@ namespace UGEN
     {
         private const string DESCRIPTION =
             "Generates utterances from input based on combinatorial language.\n" +
-            "Copyright (C) 2020 Jiri Binko. All rights reserved.\n" +
+            "Copyright (c) 2020 Jiri Binko. All rights reserved.\n" +
             "This tool is released under MIT License.\n" +
             "https://github.com/jbinko/UGEN\n\n" +
             "Use 'ugen --version' to display the current version.";
