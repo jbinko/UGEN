@@ -17,11 +17,3 @@ jobs:
       uses: actions/setup-dotnet@v1
     - name: Build with dotnet
       run: dotnet build --configuration Release
-    - name: dotnet publish
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: UGEN
-        path: |
-          Build/
-          !**/*.xml
