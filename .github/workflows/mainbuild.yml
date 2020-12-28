@@ -15,10 +15,28 @@ jobs:
     - uses: actions/checkout@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
-    - name: Build and Publish with dotnet
-      run: dotnet publish --configuration Release
-    - name: Upload Build Artifact
+
+    - name: Build and Publish with dotnet for Windows
+      run: dotnet publish -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true -r win-x64 --configuration Release
+    - name: Build and Publish with dotnet for Linux
+      run: dotnet publish -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true -r linux-x64 --configuration Release
+    - name: Build and Publish with dotnet for MacOS
+      run: dotnet publish -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true -r osx-x64 --configuration Release
+
+    - name: Upload artifact - Windows
       uses: actions/upload-artifact@v2
       with:
-        name: UGEN
-        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/publish/
+        name: UGEN-WIN-X64
+        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/win-x64/publish/ugen.exe
+    
+    - name: Upload artifact - Linux
+      uses: actions/upload-artifact@v2
+      with:
+        name: UGEN-LINUX-X64
+        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/linux-x64/publish/ugen
+    
+    - name: Upload artifact - MacOS
+      uses: actions/upload-artifact@v2
+      with:
+        name: UGEN-OSX-X64
+        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/osx-x64/publish/ugen
