@@ -58,7 +58,7 @@ namespace UGEN
                     new Argument<FileInfo>("file", "Input file with UGEN rules and declarations").ExistingOnly(),
                     new Option<FileInfo>(new[] { "--out", "-o" }, "Output file name to write out produced content. If not specified, content will be output to standard output"),
                     new Option<bool>(new[] { "--force", "-f" }, "If --out flag is provided with the path to an existing file, overwrites that file"),
-                    new Option<string[]>(new[] { "--rules", "-r" }, "List of names of rules to display. Names of rules can be space, comma or semicolon separated"),
+                    new Option<string[]>(new[] { "--rules", "-r" }, "List of names of rules to display. Names of rules can be space or comma separated"),
                 };
             printCmd.Handler = CommandHandler.Create<FileInfo, FileInfo, bool, string[], IConsole>(PrintCmdHandler);
 

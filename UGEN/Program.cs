@@ -154,13 +154,13 @@ namespace UGEN
 
             var rules = new HashSet<string>();
 
-            // can be space, comma or semicolon separated
+            // can be space or comma separated
             foreach (var r in rulesToPrint)
             {
                 if (String.IsNullOrWhiteSpace(r))
                     continue;
 
-                var separated = r.Split(' ', ',', ';');
+                var separated = r.Split(' ', ',');
                 foreach (var s in separated)
                 {
                     if (!String.IsNullOrWhiteSpace(s))
