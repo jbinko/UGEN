@@ -125,17 +125,14 @@ namespace UGEN
 
         private void ExpandRules()
         {
-            // Sort them in the calc order
-            foreach (var rule in _rules)
+            // Expand them in the dependencies order
+            foreach (var ruleId in _dependenciesOrder)
             {
-                foreach (var ruleId in _dependenciesOrder)
+                foreach (var rule in _rules)
                 {
                     if (rule.ID == ruleId)
                     {
-                        _cachedRules.Add(ruleId, new CachedRule
-                        {
-                            Rule = rule
-                        });
+                        ExpandAddCachedRule(rule);
                         break;
                     }
                 }
@@ -145,24 +142,20 @@ namespace UGEN
             foreach (var rule in _rules)
             {
                 if (!_cachedRules.ContainsKey(rule.ID))
-                {
-                    _cachedRules.Add(rule.ID, new CachedRule
-                    {
-                        Rule = rule
-                    });
-                }
+                    ExpandAddCachedRule(rule);
             }
+        }
 
-            // Expand them in the order
-            foreach (var cachedRule in _cachedRules)
-            {
-                Console.WriteLine("Producing rule: '{0}'", cachedRule.Key);
-                ExpandCachedRule(cachedRule.Value);
-            }
+        private void ExpandAddCachedRule(PatternRule rule)
+        {
+            var cachedRule = new CachedRule { Rule = rule };
+            ExpandCachedRule(cachedRule);
+            _cachedRules.Add(rule.ID, cachedRule);
         }
 
         private void ExpandCachedRule(CachedRule cachedRule)
         {
+            Console.WriteLine("Producing rule: '{0}'", cachedRule.Rule.ID);
             CleanProducedStrings(cachedRule, ExpandRule(cachedRule.Rule, cachedRule.Rule.Body));
         }
 
