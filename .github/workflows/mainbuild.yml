@@ -17,26 +17,26 @@ jobs:
       uses: actions/setup-dotnet@v1
 
     - name: Build and Publish with dotnet for Windows
-      run: dotnet publish -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true -r win-x64 --configuration Release
+      run: dotnet publish -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:PublishTrimmed=true --self-contained --runtime win-x64 --configuration Release
     - name: Build and Publish with dotnet for Linux
-      run: dotnet publish -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true -r linux-x64 --configuration Release
+      run: dotnet publish -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:PublishTrimmed=true --self-contained --runtime linux-x64 --configuration Release
     - name: Build and Publish with dotnet for MacOS
-      run: dotnet publish -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true -r osx-x64 --configuration Release
+      run: dotnet publish -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:PublishTrimmed=true --self-contained --runtime osx-x64 --configuration Release
 
     - name: Upload artifact - Windows
       uses: actions/upload-artifact@v2
       with:
         name: UGEN-WIN-X64
-        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/win-x64/publish/ugen.exe
+        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/win-x64/publish
     
     - name: Upload artifact - Linux
       uses: actions/upload-artifact@v2
       with:
         name: UGEN-LINUX-X64
-        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/linux-x64/publish/ugen
+        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/linux-x64/publish
     
     - name: Upload artifact - MacOS
       uses: actions/upload-artifact@v2
       with:
         name: UGEN-OSX-X64
-        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/osx-x64/publish/ugen
+        path: /home/runner/work/UGEN/UGEN/UGEN/bin/Release/net5.0/osx-x64/publish
