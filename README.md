@@ -34,7 +34,7 @@ you might benefit from this open source tool.
 
 ## Prerequisites to run this application
 
-In short - NO any prerequisites exists. This project is built on and using .NET 5.0 (.NET Core).
+In short - NO any prerequisites exist. This project is built on and using .NET 5.0 (.NET Core).
 If you are planning just to use compiled multi platform binaries which are part of the release build, you DO NOT need to install anything (including .NET runtime).
 All what you need is included in the release build.
 
@@ -73,7 +73,7 @@ Following example is demonstrating:
 - Showing static texts specification in lists E.g. ```[Hi, Hey, ...]```.
 - Showing optional operator ```?``` (items are combined together with and without results of expressions marked with ```?``` operator).
 E.g. Greeting intent can expand to simple ```HI``` texts or can expand up to more complex utterances including ```GOOD_DAY, BOT, HOWRU```.
-- Operator ```|``` - items are combined together with and without results in exclusive way.
+- Operator ```|``` items are combined together with and without results in exclusive way.
 It expands left side with others exclusively and then right side with others exclusively.
 - Finally, operator comma ```,``` (Not the one in static lists) is simply appending/combining items represented by expressions Together.
 E.g. ```HI, BOT``` expression will join all items represented by static lists ```HI``` and ```BOT``` Together.
@@ -97,12 +97,10 @@ GOOD_DAY
 
 Use example rules above and store them into a text file ```test.ugen```.
 Running ugen tool like this  ```./ugen print test.ugen``` will produce results shown below (results are abbreviated for clarity).
-Focus particularly on result of the rule 'Greeting' which combines all the rules Together.
+Focus particularly on result of the rule ```Greeting``` which combines all the rules Together.
 
 You can also produce LUIS JSON compatible file with more rich and useful information. You can try this command:
 ```./ugen create test.ugen -f -o test.json```
-
-Hopefully this short example provided you an idea about how this tool works.
 
 ```
 Producing rule: HI
@@ -165,9 +163,11 @@ Output of the ```test.json``` file (content is abbreviated for clarity)
 ]
 ```
 
+Hopefully this short example provided you an idea about how this tool works.
+
 ## Things in TODO List
 
-- Create an option to specify limit on number of maximum utterances to be exported. Default value should be 1000. LUIS will only accept up to 1000 utterances in one batch test file.
+- Create an option to specify limit on number of maximum utterances to be exported. Default value should be 1000. LUIS will only accept up to 1000 utterances in one test batch file.
 - Strings in square brackets doesn't support escape characters currently. It means, you cannot use following characters ```,``` and ```]``` as a part of the strings. Is it really blocker or nice to have?
 
 ## UGEN Language and Grammar
@@ -222,8 +222,8 @@ RULE-TYPE RULE-IDENTIFIER : RULE-DEFINITION
 Valid name/identifier of the rule can contain English letters (upper/lower), English numbers, underscore and hyphen characters.
 Must be at least one character long and first character must be letter or underscore. Not number or hyphen.
 
-Identifiers are case SENSITIVE during processing and if used in references it must have exactly
-the same name including case - case SENSITIVE in references in other rules.
+Identifiers are CASE SENSITIVE during processing and if used in references it must have exactly
+the same name including case - CASE SENSITIVE in references in other rules.
 
 In other words - you can use upper/lower cases or mix of cases but always needs to be typed exactly the same.
 Otherwise references will not be able to resolve referenced rules or will NOT reference correct rules.
@@ -237,7 +237,7 @@ Dependencies are resolved automatically NO matter where they are located.
 Rule can optionally have specifier for a type of the rule - It is metadata describing the rule.
 Rule can describe Intent, Entity or can be just plain rule without special meaning.
 
-You can use key words 'Intent' or 'Entity'. It is NOT case sensitive. If not specified - plain rule type is used as default.
+You can use key words ```Intent``` or ```Entity```. It is NOT case sensitive. If not specified - plain rule type is used as default.
 
 Intent and Entity metadata is important in combination with LUIS and if you need to store metadata in result in
 LUIS Batch compatible file format.
@@ -372,7 +372,7 @@ This produce new set of strings as result of an expression and is used for furth
 For example:
 ```
 MY_RULE_01
-: [Hi] | [Joe] , [You] // Produces set of strings Hi You, Joe You
+: [Hi] | [Joe] , [You] // Produces set of strings Hi You, Joe You (Check Operator Precedence)
 
 MY_RULE_02
 : [Hi] | ( [Joe] , [You] ) // Produces set of strings Hi, Joe You
