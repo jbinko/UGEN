@@ -52,7 +52,7 @@ Following files are available in assets section:
 - `Source code.zip` - Source code of this project
 - `Source code.tar.gz` - Source code of this project in different tar/zip format
 
-- Download the `UGEN.zip` file. Extract the content of the zip file into any preferred directory from which you will run this tool.
+- Download the `UGEN-XYZ-X64.zip` file. Extract the content of the zip file into any preferred directory from which you will run this tool.
 - Try to run the tool with command: `./ugen -h`. It should show you all the available options of the command line tool.
 
 ## How to use this tool
