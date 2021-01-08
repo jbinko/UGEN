@@ -48,7 +48,7 @@ You can download the .NET 5.0 SDK here: <https://dotnet.microsoft.com/download/d
 Download the latest release version of this project from the releases web page: <https://github.com/jbinko/UGEN/releases>.
 Following files are available in assets section:
 
-- `UGEN.zip` - contains binary files which needs to be unzipped on target machine
+- `UGEN-WIN-X64.zip`, `UGEN-OSX-X64.zip`, `UGEN-LINUX-X64.zip` - contains compiled binary files of this application. Zip file needs to be unzipped on target machine. You probably need just one zip file. Depends on platform of your choice.
 - `Source code.zip` - Source code of this project
 - `Source code.tar.gz` - Source code of this project in different tar/zip format
 
