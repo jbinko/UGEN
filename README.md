@@ -23,7 +23,7 @@ you might benefit from this open source tool.
 ### Features
 
 - Flexible and easy to use pattern language describing rules/patterns and combinatorial logic
-- Supports rules, automatic dependencies, intents and entities to label data
+- Supports rules, automatic tracking of dependencies between rules, intents and entities to label data
 - Generates LUIS JSON compatible file with utterances annotated with intents and entities including start/end entities positions
 - Can print expanded rules/utterances to validate intermediate or complete results on the screen
 - Specifically designed language and crafted parser for parsing rules (based on ANTLR 4.0 grammar)
@@ -34,13 +34,13 @@ you might benefit from this open source tool.
 
 ## Prerequisites to run this application
 
-In short NO any prerequisites required. This project is built on and using .NET 5.0 (.NET Core).
-If you are planning just to use compiled multi platform binaries which are part of the release build, you DO NOT need to install anything else including runtime.
+In short - NO any prerequisites exists. This project is built on and using .NET 5.0 (.NET Core).
+If you are planning just to use compiled multi platform binaries which are part of the release build, you DO NOT need to install anything (including .NET runtime).
 All what you need is included in the release build.
 
 ### Prerequisites to build this application
 
-If you are planning to build the project from a source code, you need to deploy .NET 5.0 SDK.
+If you are planning to build this project from a source code, you need to deploy .NET 5.0 SDK.
 You can download the .NET 5.0 SDK here: <https://dotnet.microsoft.com/download/dotnet-core>. Select target platform and SDK version.
 
 ## Installation
@@ -63,20 +63,20 @@ or just print calculated results on the screen.
 UGEN will read specified rules, will understand dependencies between rules, will combine rules together with combinatorial
 logic and will store results - including metadata if provided.
 
-This will allow you quickly - with only few rules generate fair amount of sample data for your specific domain space and language understanding project.
+This allows you quickly (with only few rules) generate fair amount of sample data for your specific domain space and language understanding project.
 
 ### Examples
 
 Following example is demonstrating:
 
-- Separation to different rules with names (including intent).
-- Showing static texts specification in lists E.g. [Hi, Hey, ...].
-- Showing optional operator ? (items are combined together with and without results of expressions marked with ? operator).
-E.g. Greeting intent can expand to simple HI texts or can expand up to more complex utterances including GOOD_DAY, BOT, HOWRU.
-- Operator | - items are combined together with and without results in exclusive way.
+- Separation of different rules with specific names (including intent).
+- Showing static texts specification in lists E.g. ```[Hi, Hey, ...]```.
+- Showing optional operator ```?``` (items are combined together with and without results of expressions marked with ```?``` operator).
+E.g. Greeting intent can expand to simple ```HI``` texts or can expand up to more complex utterances including ```GOOD_DAY, BOT, HOWRU```.
+- Operator ```|``` - items are combined together with and without results in exclusive way.
 It expands left side with others exclusively and then right side with others exclusively.
-- Finally, operator comma , (Not in static lists) is simply appending/combining items represented by expressions Together.
-E.g. HI, BOT expression will join all items represented by static lists HI and BOT Together.
+- Finally, operator comma ```,``` (Not the one in static lists) is simply appending/combining items represented by expressions Together.
+E.g. ```HI, BOT``` expression will join all items represented by static lists ```HI``` and ```BOT``` Together.
 
 ```
 intent Greeting
